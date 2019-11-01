@@ -8,7 +8,7 @@
     <form method="POST" action="{{ route( 'post.store' ) }}">
       <label for="title">
         Title
-        <input type="text" name"title" value="{{ old('title ')}}" placeholder="Enter a post title...">
+        <input type="text" name"title" value="{{ old( 'title ')}}" placeholder="Enter a post title...">
       </label>
       <label for="content">
 
