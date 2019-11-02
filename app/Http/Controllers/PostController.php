@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Post;
 
 class PostController extends Controller
 {
@@ -13,8 +14,8 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
-        return view( 'index' );
+        $posts = Post::all();
+        return view( 'index' )->withPosts( $posts );
     }
 
     /**
@@ -37,6 +38,19 @@ class PostController extends Controller
     public function store(Request $request)
     {
         //
+        // DD($request);
+        $this->validate( $request, [
+          'title' => 'required|min:2|max:86',
+          'content' => 'required|min:2|max:255'
+        ]);
+
+        $post = new Post();
+
+        $post->title = $request->title;
+        $post->content = $request->content;
+        $post->save();
+
+        return redirect()->route('index');
     }
 
     /**
@@ -48,6 +62,9 @@ class PostController extends Controller
     public function show($id)
     {
         //
+        $post = Post::find ( $id );
+
+        return view( 'post.show' )->withPost( $post );
     }
 
     /**
@@ -59,6 +76,9 @@ class PostController extends Controller
     public function edit($id)
     {
         //
+        $post = Post::find( $id );
+
+        return view( 'post.edit' )->withPost( $post );
     }
 
     /**
@@ -71,6 +91,19 @@ class PostController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $this->validate( $request, [
+          'title' => 'required|min:2|max:86',
+          'content' => 'required|min:2|max:255'
+        ]);
+
+        $post = Post::find($id);
+
+        $post->title = $request->title;
+        $post->content = $request->content;
+
+        $post->save();
+
+        return redirect()->route( 'index' );
     }
 
     /**
@@ -82,5 +115,9 @@ class PostController extends Controller
     public function destroy($id)
     {
         //
+        $post = Post::find( $id );
+        $post->delete();
+
+        return redirect()->route( 'index' );
     }
 }

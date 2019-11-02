@@ -6,7 +6,7 @@
   </head>
   <body>
     @include('nav')
-    <form method="POST" action="{{ route( 'post.store' ) }}">
+    <form method="POST" action="{{ route( 'post.update', $post->id) }}">
       @csrf
       <label for="title">
         Title
@@ -17,7 +17,7 @@
         <textarea name="content" value="{{ old('content' )}}" placeholder="Enter the content for this blog post...">
         </textarea>
       </label>
-      <input type="submit" name="Create Post">
+      <input type="submit" name="Update Post">
     </form>
   </body>
 </html>
